@@ -10,6 +10,8 @@
     "jest-cli": "^21.1.0",
     "react": "16.0.0-alpha.12",
     "react-native": "^0.48.2",
+    "react-native-beacons-manager": "^1.0.7",
+    "react-native-bluetooth-state": "^2.0.0",
     "react-native-camera": "^0.10.0",
     "react-native-cli": "^2.0.1",
     "react-native-elements": "^0.17.0",

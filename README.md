@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # DocSwap
 Optical Character Recognition Integrating Language Translation
 
@@ -57,3 +58,6 @@ Optical Character Recognition Integrating Language Translation
 
 ![docswapss](https://user-images.githubusercontent.com/23174736/30870397-fcf02c50-a2a0-11e7-9158-4eda58e0fe3e.jpg)
 
+=======
+Repository for 'Polyglot', my Master's Thesis. 
+>>>>>>> 045b40d6cec6dc7f741e815b98c559db995bc735

@@ -21,6 +21,8 @@ import {
 import Camera from "react-native-camera";
 import Beacons from 'react-native-beacons-manager';
 import BluetoothState from 'react-native-bluetooth-state'; 
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 
 
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
@@ -52,6 +54,19 @@ export default class MediaType extends Component {
   };
 
   componentWillMount(){ 
+
+    var config = {
+    apiKey: "AIzaSyDwmMoNmqzoxklCVW1V3FYZCDa1hJfvpYQ",
+    authDomain: "thesis-7c0c5.firebaseapp.com",
+    databaseURL: "https://thesis-7c0c5.firebaseio.com",
+    projectId: "thesis-7c0c5",
+    storageBucket: "thesis-7c0c5.appspot.com",
+    messagingSenderId: "24760403967"
+  };
+  firebase.initializeApp(config);
+
+
+
     //
     // ONLY non component state aware here in componentWillMount
     //
@@ -69,6 +84,17 @@ export default class MediaType extends Component {
   } 
 
   componentDidMount() {
+
+        // Get a reference to the database service
+  var db = firebase.firestore();
+  // Disable deprecated features
+db.settings({
+  timestampsInSnapshots: true
+});
+
+
+
+
     //
     // component state aware here - attach events
     //
@@ -77,10 +103,23 @@ export default class MediaType extends Component {
       'beaconsDidRange',
       (data) => {
 
-        console.log(data.beacons.length)
+        console.log(data.beacons.length);
+
+          var docRef = db.collection("park").doc("1111").collection('beacons').doc('9991'); 
+
+docRef.get().then(function(doc) {
+    if (doc.exists) {
+        console.log("Document data:", doc.data());
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+    }
+}).catch(function(error) {
+    console.log("Error getting document:", error);
+});
 
         for(var i=0; i<data.beacons.length; i++){
-          console.log(data.beacons[i]);
+       //   console.log(data.beacons[i]); 
         }
 
        // console.log(data.beacons[1]);

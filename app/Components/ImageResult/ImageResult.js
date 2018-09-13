@@ -10,7 +10,8 @@ import {
   ActivityIndicator,
   Picker,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  Button
 } from "react-native";
 import { NavigationActions } from "react-navigation";
 
@@ -32,8 +33,14 @@ export default class ImageResult extends Component {
   }
 
   static navigationOptions = {
-    title: "Image Result",
-    header: null
+    title: "Translation",
+    headerRight: (
+      <Button
+        onPress={() => alert('This is a button!')}
+        title="Info"
+        color="#fff"
+      />
+    ),
   };
 
   componentDidMount() {
@@ -167,17 +174,6 @@ export default class ImageResult extends Component {
                    size={ 100 }
                    type={ 'Wave' }
                    color={ '#3DD8CE' } />
-
-        <TouchableOpacity  style={styles.bottomBar}  onPress={ () => goBack() }> 
-
-
-
-          <View style={ [styles.goBackBtn, styles.Btn] }>
-            <Image source={require("../../../assets/left-arrow.png")}
-                  style={ styles.icon } />
-          </View>
-
-        </TouchableOpacity>
       
       </View>
     );
@@ -227,7 +223,7 @@ const styles = StyleSheet.create({
 
   pickerContainer: {
     position: 'absolute',
-    bottom:0
+    bottom:50
   },
   
   picker: {
@@ -235,7 +231,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     width: Dimensions.get("window").width,
     opacity:0.9,
-    height:180
+    height:230
   },
 
   translateBtn: {
@@ -250,7 +246,9 @@ const styles = StyleSheet.create({
     justifyContent:"center",
      backgroundColor: '#e9e9ef',
      marginBottom:50,
-     opacity:0.9
+     opacity:0.9,
+     marginLeft:30,
+     marginRight:30
   },
 
   translateTxt: {

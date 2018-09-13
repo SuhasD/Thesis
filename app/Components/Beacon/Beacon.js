@@ -12,10 +12,12 @@ import {
   Dimensions,
   StyleSheet,
   ScrollView,
-  Text,
-  View
+  Text, 
+  View,
+  Button
 } from "react-native";
- import Cameras from "../Camera/Camera";
+
+import Cameras from "../Camera/Camera";
 import Camera from "react-native-camera";
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
 const { width } = Dimensions.get('window');
@@ -23,12 +25,18 @@ const { width } = Dimensions.get('window');
 export default class MediaType extends Component { 
   static navigationOptions = {
     title: "Beacon",
-    header: null,
+    headerRight: (
+      <Button
+        onPress={() => alert('This is a button!')}
+        title="Info"
+        color="#fff"
+      />
+      ),
     gesturesEnabled: false
   };
 
-  componentDidMount() {
-    setTimeout(() => {this.scrollView.scrollTo({x: -30}) }, 1) // scroll view position fix
+  componentDidMount() {  
+ 
   }
 
   
@@ -37,55 +45,26 @@ export default class MediaType extends Component {
     const { navigate, dispatch, state } = this.props.navigation;
     const { goBack } = this.props.navigation;
 
+
     return (
       <View>
-
+       <ScrollView>
 
        <View style={styles.beaconBg}>
-       <Text style={styles.nearTxt}>Nearby Beacons </Text>
-        <ScrollView 
-            ref={(scrollView) => { this.scrollView = scrollView; }}
-            style={styles.container}
-            //pagingEnabled={true}
-            horizontal= {true}
-            decelerationRate={0}
-            snapToInterval={width - 60}
-            snapToAlignment={"center"}
-            contentInset={{
-              top: 0,
-              left: 30,
-              bottom: 0,
-              right: 30,
-            }}>
-            <View style={styles.view2}>
-                <TouchableOpacity
-                  style={ styles.button }
-                  onPress={ () => navigate("ImageResult", { from: "text" }) }
-                  activeOpacity={ 0.5 }>
-                  <Image
-                    source={ require("../../../assets/message-2.png") }
-                    style={ [styles.doc, styles.camTxtImg] }/>
-                  <Text style={styles.inpTxt}>Translate Text</Text> 
-                </TouchableOpacity>
-            </View>
-            <View style={styles.view} />
-            <View style={styles.view2} />
-            <View style={styles.view} />
-          </ScrollView>
-        </View>
+           <Image source={{uri: 'https://arlingtonva.s3.amazonaws.com/wp-content/uploads/sites/17/2014/05/Andrew-Ellicott.jpg'}}
+            style={{width: 400, height: 350}} />  
+        </View>  
 
+         <View style={styles.nameBar}>
+            <Text style={styles.nameTxt}>Park Rules </Text>  
+            <Text style={styles.metresAway}> 20 metres away </Text>
+         </View>   
 
-        <TouchableOpacity  style={styles.bottomBar}  onPress={ () => goBack() }> 
-
-
-
-          <View style={ [styles.goBackBtn, styles.Btn] }>
-            <Image source={require("../../../assets/left-arrow.png")}
-                  style={ styles.icon } />
+          <View style={styles.desc}>
+              <Text style={styles.descTxt}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text> 
           </View>
 
-        </TouchableOpacity>
-
+        </ScrollView>
       </View>
     );
   }
@@ -94,8 +73,22 @@ export default class MediaType extends Component {
 const styles = StyleSheet.create({
 
   beaconBg: {
-    backgroundColor: '#000',
-    marginTop:5
+
+  },
+
+  metresAway :{
+    fontSize:14,
+    fontWeight: 'bold',
+    marginRight:15,
+    marginTop:12,
+    color:"#e8d8d8"
+  },
+
+  descTxt: {
+    color:'black',
+    fontSize:18,
+    padding:15,
+    letterSpacing:0.1
   },
 
   nearTxt: {
@@ -110,7 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#d8d8d8',
     width: width - 130,
     margin: 10,
-    height: 140,
+    height: 130,
     borderRadius: 10,
     paddingHorizontal : 10
   },
@@ -119,7 +112,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#bdbdbd',
     width: width - 130,
     margin: 10,
-    height: 140,
+    height: 130,
     borderRadius: 10,
     paddingHorizontal : 10
   },
@@ -227,6 +220,22 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     height: 80,
     width: '100%'    
+  },
+
+  nameBar:{
+    alignSelf: 'flex-end',
+    backgroundColor: "rgba(0.5,0.5,0.5,0.6)",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    height: 40,
+    width: '100%'
+  },
+
+  nameTxt:{
+    color:'white',
+    fontSize:20,
+    paddingLeft:15,
+    paddingTop:5
   },
 
   camBtn: {

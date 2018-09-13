@@ -9,13 +9,13 @@ import {
   ImageBackground,
   TextInput,
   TouchableOpacity,
-  Dimensions,
+  Dimensions,   
   StyleSheet,
-  ScrollView,
+  ScrollView, 
   Text,
   View
 } from "react-native";
- import Cameras from "../Camera/Camera";
+ import Cameras from "../Camera/Camera"; 
 import Camera from "react-native-camera";
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards'
 const { width } = Dimensions.get('window');
@@ -24,14 +24,14 @@ export default class MediaType extends Component {
   static navigationOptions = {
     title: "Home",
     header: null,
-    gesturesEnabled: false
+    gesturesEnabled: false   
   };
 
   componentDidMount() {
     setTimeout(() => {this.scrollView.scrollTo({x: -30}) }, 1) // scroll view position fix
   }
 
-    takePicture() {
+    takePicture() {  
     this.camera
       .capture()
       .then(data => { 
@@ -68,7 +68,7 @@ export default class MediaType extends Component {
 
         <TouchableOpacity
           style={ styles.button }
-          onPress={ () => navigate("Upload") }
+          onPress={ () => navigate("Upload") } 
           activeOpacity={ 0.5 }>
           <Image
             source={ require("../../../assets/upload.png") }
@@ -88,7 +88,7 @@ export default class MediaType extends Component {
               activeOpacity={ 0.5 }>
               <Image
                 source={ require("../../../assets/message-2.png") }
-                style={ [styles.doc, styles.camTxtImg] }/>
+                style={styles.camTxtImg }/>
             </TouchableOpacity>
           </View>
         </Camera>
@@ -98,7 +98,7 @@ export default class MediaType extends Component {
          </ImageBackground>  
 
        <View style={styles.beaconBg}>
-       <Text style={styles.nearTxt}>Nearby Beacons </Text>
+       <Text style={styles.nearTxt}>Signs around you</Text>
         <ScrollView 
             ref={(scrollView) => { this.scrollView = scrollView; }}
             style={styles.container}
@@ -113,25 +113,47 @@ export default class MediaType extends Component {
               bottom: 0,
               right: 30,
             }}>
+            
             <View style={styles.view2}>
                 <TouchableOpacity
                   style={ styles.button }
                   onPress={ () => navigate("Beacon", { from: "text" }) }
                   activeOpacity={ 0.5 }>
-                  <Image
-                    source={ require("../../../assets/message-2.png") }
-                    style={ [styles.doc, styles.camTxtImg] }/>
+                  
+                    <Image 
+                 source={{ uri:'https://arlingtonva.s3.amazonaws.com/wp-content/uploads/sites/17/2014/05/Andrew-Ellicott.jpg' }} 
+                style={styles.cardImg}
+              />
+                    <Text style={styles.cardTxt}>Harbor NP (5 meters)</Text>
+                        
                 </TouchableOpacity>
             </View>
- <View  style={styles.view}>
-    <Image 
-       source={ require("../../../assets/blue-background.png") }
-      style={styles.cardimg}
-    />
 
-  </View>
-            <View style={styles.view2} />
-            <View style={styles.view} />
+           <View  style={styles.view}>
+              <Image 
+                 source={{ uri:'https://res.cloudinary.com/nrpadev/image/upload/c_fill,f_auto,q_70/New-Signage-and-Maps-Make-Trails-and-Parks-More-Accessible-410.jpg' }}
+                style={styles.cardImg}
+              />
+              <Text style={styles.cardTxt}>Trailhead (35 meters)</Text>
+            </View>
+
+
+            <View style={styles.view2}>  
+               <TouchableOpacity
+                  style={ styles.button }
+                  onPress={ () => navigate("Beacon", { from: "text" }) }
+                  activeOpacity={ 0.5 }>
+                  
+                    <Image 
+                 source={{ uri:'https://greenwichfreepress.com/wp-content/uploads/2017/06/Screen-Shot-2017-06-29-at-2.43.36-PM.png' }}
+                style={styles.cardImg}
+                 />
+                    <Text style={styles.cardTxt}>Restrooms (50 meters)</Text>
+                        
+                </TouchableOpacity> 
+
+            </View>
+
           </ScrollView>
         </View>
       </View>
@@ -144,8 +166,8 @@ const styles = StyleSheet.create({
 
 cardImg:{
    paddingBottom:0,
-   height:140,
-   margin:0
+   margin:0,
+   height:115
  },
 
   beaconBg: {
@@ -165,7 +187,7 @@ cardImg:{
   view: {
     marginTop: 10,
     backgroundColor: '#d8d8d8',
-    width: width - 150,
+    width: width - 170,
     margin: 10,
     height: 140,
     borderRadius: 8,
@@ -175,7 +197,7 @@ cardImg:{
   view2: {
     marginTop: 10,
     backgroundColor: '#bdbdbd',
-    width: width - 150,
+    width: width - 170,
     margin: 10,
     height: 140,
     borderRadius: 8,
@@ -286,18 +308,30 @@ cardImg:{
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 60,
-    width: '100%'    
+    width: '100%'     
+  },
+
+  cardTxt:{
+   alignSelf: 'flex-end',
+    backgroundColor: "rgba(0,0,0,0.6)",
+    flexDirection: 'row',
+    justifyContent: 'space-between', 
+    height: 25,
+    width: '100%',
+    fontSize:18,
+    padding:3,
+    color:'white'
   },
 
   camBtn: {
     height: 20,
     width: 20,
     borderRadius: 65,
-    borderWidth: 20.3,
-    borderColor: "#3F51B5",   
-    marginLeft:83,
+    borderWidth: 20.3, 
+    borderColor: "#26A69A",    
+    marginLeft:90, 
     marginTop: 10
-  },
+  }, 
 
   Btn: {
     flexDirection: 'column',

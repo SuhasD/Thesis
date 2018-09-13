@@ -11,7 +11,8 @@ import { AppRegistry,
 import { NavigationActions } from 'react-navigation';
 import Share from 'react-native-share'
 
-const LangResult = (props) => {
+const LangResult = (props) => { 
+
   const { goBack, dispatch } = props.navigation;
   
   const { cameraKey, homeKey } = props.navigation.state.params;
@@ -33,12 +34,10 @@ const LangResult = (props) => {
   return (
     <View style={ styles.container }>
 
-            <ScrollView  style={ styles.textContainer }>
-
-
-              <Text style={styles.realHeadline}>The translated text is: </Text>
-              <Text style={styles.resTxt}>{ props.navigation.state.params.translation }</Text>
-              </ScrollView>
+        <ScrollView  style={ styles.textContainer }>
+           <Text style={styles.realHeadline}>The translated text is: </Text>
+           <Text style={styles.resTxt}>{ props.navigation.state.params.translation }</Text>
+        </ScrollView>
 
 
       <View style={ styles.bottomBar }> 

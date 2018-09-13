@@ -4,7 +4,7 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
+  TouchableOpacity, 
   StyleSheet,
   Dimensions
 } from "react-native";
@@ -17,7 +17,7 @@ export default class TakePhoto extends Component {
       photo: null
     };
   } 
-  static navigationOptions = {
+  static navigationOptions = {  
     title: "Camera",
     header: null
   };

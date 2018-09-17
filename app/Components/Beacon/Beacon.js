@@ -43,7 +43,9 @@ export default class MediaType extends Component {
   render() {
     const { Aspect, CaptureTarget, Orientation } = Camera.constants;
     const { navigate, dispatch, state } = this.props.navigation;
+    const { navigation } = this.props.navigation;
     const { goBack } = this.props.navigation;
+    const bData =  this.props.navigation.state.params.bData
 
 
     return (
@@ -51,17 +53,26 @@ export default class MediaType extends Component {
        <ScrollView>
 
        <View style={styles.beaconBg}>
-           <Image source={{uri: 'https://arlingtonva.s3.amazonaws.com/wp-content/uploads/sites/17/2014/05/Andrew-Ellicott.jpg'}}
+           <Image source={{uri: bData.img}}
             style={{width: 400, height: 350}} />  
         </View>  
 
          <View style={styles.nameBar}>
-            <Text style={styles.nameTxt}>Park Rules </Text>  
+            <Text style={styles.nameTxt}>{bData.name} </Text>  
             <Text style={styles.metresAway}> 20 metres away </Text>
          </View>   
 
           <View style={styles.desc}>
-              <Text style={styles.descTxt}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text> 
+              <Text style={styles.descTxt}>
+                {bData.english}
+              </Text> 
+
+              <Text> In spanish </Text>
+
+              <Text style={styles.descTxt}>
+                {bData.spanish}
+              </Text> 
+
           </View>
 
         </ScrollView>

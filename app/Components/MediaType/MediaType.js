@@ -43,7 +43,8 @@ export default class MediaType extends Component {
       identifier: 'GemTot for iOS',
       uuid: 'E6FA79C7-804F-4742-863B-BD4D282ED9BA',
       // React Native ListView datasource initialization
-      dataSource: ds.cloneWithRows([])
+      dataSource: ds.cloneWithRows([]),
+      dbData:[]
     };
   }
 
@@ -85,12 +86,15 @@ export default class MediaType extends Component {
 
   componentDidMount() {
 
+  var self = this;
         // Get a reference to the database service
   var db = firebase.firestore();
   // Disable deprecated features
-db.settings({
-  timestampsInSnapshots: true
-});
+  db.settings({
+    timestampsInSnapshots: true 
+  });
+
+  var temp = []; 
 
 
 
@@ -99,28 +103,70 @@ db.settings({
     // component state aware here - attach events
     //
     // Ranging: Listen for beacon changes
-    this.beaconsDidRange = DeviceEventEmitter.addListener(
+    this.beaconsDidRange = DeviceEventEmitter.addListener( 
       'beaconsDidRange',
       (data) => {
 
-        console.log(data.beacons.length);
+      // setTimeout(function(){ 
 
-          var docRef = db.collection("park").doc("1111").collection('beacons').doc('9991'); 
+       // console.log(data.beacons.length);
 
-docRef.get().then(function(doc) {
-    if (doc.exists) {
-        console.log("Document data:", doc.data());
-    } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-    }
-}).catch(function(error) {
-    console.log("Error getting document:", error);
-});
+        var docRef = db.collection("park").doc("1111").collection('beacons').doc('9991'); 
+        var beaconRef = db.collection("park").doc("1111").collection('beacons');
+        var numToString = '';
+        this.setState({
+              dbData: []  
+            });
+        
+
+        docRef.get().then(function(doc) {
+            if (doc.exists) {
+               // console.log("Document data:", doc.data());  
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
+
+
+
 
         for(var i=0; i<data.beacons.length; i++){
-       //   console.log(data.beacons[i]); 
+
+          numToString = data.beacons[i].minor.toString();
+         // console.log("data.beacons[i]",data.beacons[i]); 
+          beaconRef.doc(numToString).get().then(function(doc) {
+            if (doc.exists) {
+                //console.log("Document name:", doc.data().name);
+                var name =  doc.data();
+               // dbData.push(name);
+               temp.push(name);
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+            }).catch(function(error) {
+                console.log("Error getting document:", error);
+            });
+             
+
+
+            this.setState({
+              dbData: temp
+            }); 
+            console.log("dbData ",this.state.dbData); 
         }
+
+
+        temp =[]; 
+        
+
+        
+
+        
+
 
        // console.log(data.beacons[1]);
         this.setState({
@@ -129,6 +175,9 @@ docRef.get().then(function(doc) {
 
 
       }
+
+
+
     );
 
         // listen bluetooth state change event
@@ -158,11 +207,7 @@ docRef.get().then(function(doc) {
     return (
       <View>
 
-      <ListView
-          dataSource={ dataSource }
-          enableEmptySections={ true }
-          renderRow={this.renderRow}
-        />
+    
 
       <ImageBackground
         source={ require("../../../assets/blue-background.png") }
@@ -217,7 +262,10 @@ docRef.get().then(function(doc) {
 
        <View style={styles.beaconBg}>
        <Text style={styles.nearTxt}>Signs around you</Text>
-        <ScrollView 
+
+            
+
+              <ScrollView 
             ref={(scrollView) => { this.scrollView = scrollView; }}
             style={styles.container}
             //pagingEnabled={true}
@@ -229,50 +277,34 @@ docRef.get().then(function(doc) {
               top: 0,
               left: 30,
               bottom: 0,
-              right: 30,
+              right: 30, 
             }}>
             
-            <View style={styles.view2}>
+      {this.state.dbData.map((number, index) =>
+            <View style={styles.view2} key={index+number.name}>
                 <TouchableOpacity
                   style={ styles.button }
-                  onPress={ () => navigate("Beacon", { from: "text" }) }
-                  activeOpacity={ 0.5 }>
+                  onPress={ () => navigate("Beacon", { 
+                    from: "text",
+                    bData: number,
+                  })
+                  }
+                  activeOpacity={ 0.5 }
+                   key={index+number.name}>
                   
                     <Image 
-                 source={{ uri:'https://arlingtonva.s3.amazonaws.com/wp-content/uploads/sites/17/2014/05/Andrew-Ellicott.jpg' }} 
+                    key ={index+number.english} 
+                 source={{ uri:number.img }} 
                 style={styles.cardImg}
               />
-                    <Text style={styles.cardTxt}>Harbor NP (5 meters)</Text>
+                    <Text style={styles.cardTxt} key={index+number.name}>{number.name}</Text>
                         
                 </TouchableOpacity>
             </View>
 
-           <View  style={styles.view}>
-              <Image 
-                 source={{ uri:'https://res.cloudinary.com/nrpadev/image/upload/c_fill,f_auto,q_70/New-Signage-and-Maps-Make-Trails-and-Parks-More-Accessible-410.jpg' }}
-                style={styles.cardImg}
-              />
-              <Text style={styles.cardTxt}>Trailhead (35 meters)</Text>
-            </View>
+      )}
+    </ScrollView>
 
-
-            <View style={styles.view2}>  
-               <TouchableOpacity
-                  style={ styles.button }
-                  onPress={ () => navigate("Beacon", { from: "text" }) }
-                  activeOpacity={ 0.5 }>
-                  
-                    <Image 
-                 source={{ uri:'https://greenwichfreepress.com/wp-content/uploads/2017/06/Screen-Shot-2017-06-29-at-2.43.36-PM.png' }}
-                style={styles.cardImg}
-                 />
-                    <Text style={styles.cardTxt}>Restrooms (50 meters)</Text>
-                        
-                </TouchableOpacity> 
-
-            </View>
-
-          </ScrollView>
         </View>
       </View>
     );
@@ -282,7 +314,7 @@ docRef.get().then(function(doc) {
     return (
       <View style={styles.row}>
         <Text style={styles.smallText}>
-          UUID: {rowData.uuid ? rowData.uuid  : 'NA'}
+          UUID: {rowData.uuid ? rowData.uuid  : 'NA'} 
         </Text>
         <Text style={styles.smallText}>
           Major: {rowData.major ? rowData.major : 'NA'}

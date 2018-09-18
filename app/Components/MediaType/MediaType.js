@@ -17,7 +17,7 @@ import {
   ListView,
   DeviceEventEmitter
 } from "react-native";
- import Cameras from "../Camera/Camera"; 
+import Cameras from "../Camera/Camera"; 
 import Camera from "react-native-camera";
 import Beacons from 'react-native-beacons-manager';
 import BluetoothState from 'react-native-bluetooth-state'; 
@@ -107,34 +107,16 @@ export default class MediaType extends Component {
       'beaconsDidRange',
       (data) => {
 
-      // setTimeout(function(){ 
-
-       // console.log(data.beacons.length);
-
-        var docRef = db.collection("park").doc("1111").collection('beacons').doc('9991'); 
         var beaconRef = db.collection("park").doc("1111").collection('beacons');
-        var numToString = '';
-        this.setState({
-              dbData: []  
-            });
+        var numToString = '';   
+
+        // alert('yo');
         
-
-        docRef.get().then(function(doc) {
-            if (doc.exists) {
-               // console.log("Document data:", doc.data());  
-            } else {
-                // doc.data() will be undefined in this case
-                console.log("No such document!");
-            }
-        }).catch(function(error) {
-            console.log("Error getting document:", error);
-        });
-
-
-
+        // this.setState({
+        //   dbData: []  
+        // });
 
         for(var i=0; i<data.beacons.length; i++){
-
           numToString = data.beacons[i].minor.toString();
          // console.log("data.beacons[i]",data.beacons[i]); 
           beaconRef.doc(numToString).get().then(function(doc) {
@@ -150,54 +132,37 @@ export default class MediaType extends Component {
             }).catch(function(error) {
                 console.log("Error getting document:", error);
             });
-             
-
 
             this.setState({
               dbData: temp
             }); 
-            console.log("dbData ",this.state.dbData); 
+           // console.log("dbData ",this.state.dbData); 
         }
 
-
         temp =[]; 
-        
-
-        
-
-        
-
-
-       // console.log(data.beacons[1]);
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(data.beacons)
-        });
-
-
+        // this.setState({
+        //   dataSource: this.state.dataSource.cloneWithRows(data.beacons)
+        // });
       }
-
-
-
     );
 
-        // listen bluetooth state change event
+    // listen bluetooth state change event
     BluetoothState.subscribe(
       bluetoothState => {
         this.setState({ bluetoothState: bluetoothState });
       }
     );
     BluetoothState.initialize();
-    
   }
 
-    takePicture() {  
+  takePicture() {  
     this.camera
       .capture()
       .then(data => { 
         this.props.navigation.navigate('Verify', Object.assign({}, { homeKey: this.props.navigation.state.key }, data))
       })
       .catch(err => console.error(err)); 
-    }
+  }
   
   render() {
      const { Aspect, CaptureTarget, Orientation } = Camera.constants;

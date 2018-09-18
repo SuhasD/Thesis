@@ -61,19 +61,19 @@ export default class TakePhoto extends Component {
     })
 
     fetch(`https://vision.googleapis.com/v1/images:annotate?key=AIzaSyBLwBYTep8mm0D9F0bI3NYtd-belreAFGc`, {
-      method: 'POST',
-      headers: {
+      method: 'POST', 
+      headers: { 
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-              "requests": [
-                {
+        'Content-Type': 'application/json', 
+      }, 
+      body: JSON.stringify({ 
+              "requests": [ 
+                { 
               "image": {
                 "content": imgPath
-              },
+              }, 
               "features": [
-              {
+              { 
                 "type": "DOCUMENT_TEXT_DETECTION"
               }
             ]
@@ -87,11 +87,6 @@ export default class TakePhoto extends Component {
   }
 
   convertImg() {
-
-    //from camera /Users/jbecks/Library/Developer/CoreSimulator/Devices/D9FE59D4-5706-4B0B-98D7-9D7B9519D18A/data/Containers/Data/Application/CCDC4308-F7FA-443A-B9B1-0DEBBDF93C01/Documents/24D6D353-B8FA-414F-ADEC-92B672FD056D.jpg
-
-    //from cameraRoll assets-library://asset/asset.JPG?id=729F50DA-9627-42A9-802D-69B22C9EECD2&ext=JPG
-
 
     const imgPath = this.props.navigation.state.params.path
 

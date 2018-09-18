@@ -36,22 +36,39 @@ export default class ImageResult extends Component {
     title: "Translation",
     headerRight: (
       <Button
-        onPress={() => alert('This is a button!')}
+        onPress={() => alert('This is a button!')}  
         title="Info"
         color="#fff"
       />
     ),
-  };
+  };  
 
   componentDidMount() {
     if (this.props.navigation.state.params.from === 'text') {
       this.setState({ text: "Type here..." })
       this.setState({ fromTyping: true })
-    } else {
+    }  
+    else if (this.props.navigation.state.params.from === 'beacon') {
+      this.setState({ text: this.props.navigation.state.params.toTrans })
+      //this.setState({ fromTyping: true })
+      text: this.props.navigation.state.params.toTrans 
+    }
+
+    else {
       this.setState({
         text: this.props.navigation.state.params.path
       })
-    }
+    }    
+
+    // if (this.props.navigation.state.params.from === 'beacon') {
+    //   this.setState({ text: "From beacon" })
+    //   //this.setState({ fromTyping: true })
+    //   text: this.props.navigation.state.params.toTrans
+    // } else {
+    //   this.setState({
+    //     text: this.props.navigation.state.params.toTrans
+    //   })
+    // }
   }
 
   togglePicker() {

@@ -67,11 +67,15 @@ export default class MediaType extends Component {
                 {bData.english}
               </Text> 
 
-              <Text> In spanish </Text>
-
-              <Text style={styles.descTxt}>
-                {bData.spanish}
-              </Text> 
+               <TouchableOpacity 
+                  style={styles.translateBtn}
+                  onPress={ () => navigate("ImageResult", { 
+                    from: "beacon",
+                    toTrans: bData.english
+                  })}
+                  activeOpacity={ 0.5 }>
+                  <Text style={styles.translateTxt}>TRANSLATE</Text>
+                </TouchableOpacity>
 
           </View>
 
@@ -85,6 +89,30 @@ const styles = StyleSheet.create({
 
   beaconBg: {
 
+  },
+
+   translateBtn: {
+    alignItems: 'center',
+    marginTop: 0,
+    borderWidth: 1,
+    borderRadius:30,
+    paddingLeft:60,
+    paddingRight:60,
+    margin:"auto",
+     flexDirection: 'row',
+    justifyContent:"center",
+     backgroundColor: '#e9e9ef',
+     marginBottom:50,
+     opacity:0.9,
+     marginLeft:30,
+     marginRight:30
+  },
+
+  translateTxt: {
+    fontSize: 18,
+    padding: 10,
+    color:"green",
+    opacity:0.9
   },
 
   metresAway :{

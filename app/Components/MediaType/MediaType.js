@@ -44,7 +44,10 @@ export default class MediaType extends Component {
       uuid: 'E6FA79C7-804F-4742-863B-BD4D282ED9BA',
       // React Native ListView datasource initialization
       dataSource: ds.cloneWithRows([]),
-      dbData:[]
+      dbData:[],
+      distance1:'',
+      distance2:'',
+      distance3:''
     };
   }
 
@@ -57,18 +60,15 @@ export default class MediaType extends Component {
   componentWillMount(){ 
 
     var config = {
-    apiKey: "AIzaSyDwmMoNmqzoxklCVW1V3FYZCDa1hJfvpYQ",
-    authDomain: "thesis-7c0c5.firebaseapp.com",
-    databaseURL: "https://thesis-7c0c5.firebaseio.com",
-    projectId: "thesis-7c0c5",
-    storageBucket: "thesis-7c0c5.appspot.com",
-    messagingSenderId: "24760403967"
-  };
-  firebase.initializeApp(config);
+      apiKey: "AIzaSyDwmMoNmqzoxklCVW1V3FYZCDa1hJfvpYQ",
+      authDomain: "thesis-7c0c5.firebaseapp.com",
+      databaseURL: "https://thesis-7c0c5.firebaseio.com",
+      projectId: "thesis-7c0c5",
+      storageBucket: "thesis-7c0c5.appspot.com",
+      messagingSenderId: "24760403967"
+    };
+    firebase.initializeApp(config);
 
-
-
-    //
     // ONLY non component state aware here in componentWillMount
     //
     // Request for authorization while the app is open
@@ -96,10 +96,6 @@ export default class MediaType extends Component {
 
   var temp = []; 
 
-
-
-
-    //
     // component state aware here - attach events
     //
     // Ranging: Listen for beacon changes
@@ -110,15 +106,29 @@ export default class MediaType extends Component {
         var beaconRef = db.collection("park").doc("1111").collection('beacons');
         var numToString = '';   
 
-        // alert('yo');
-        
-        // this.setState({
-        //   dbData: []  
-        // });
-
         for(var i=0; i<data.beacons.length; i++){
           numToString = data.beacons[i].minor.toString();
-         // console.log("data.beacons[i]",data.beacons[i]); 
+          distanceToString = data.beacons[i].accuracy.toFixed(1).toString()+"m";
+          if(i == 0){
+            this.setState({
+              distance1: distanceToString
+            }); 
+           // temp[0].distance = "123 Some St.";
+            //temp[i].push({'dis':distance1})
+           // temp[i].distance = distance1;
+            console.log(temp[1]);
+          } else if (i == 1){
+            this.setState({
+              distance2: distanceToString
+            }); 
+          } else if (i == 2){
+            this.setState({
+              distance3: distanceToString
+              }); 
+          }
+            
+
+          console.log("distance+i",this.state.distance1); 
           beaconRef.doc(numToString).get().then(function(doc) {
             if (doc.exists) {
                 //console.log("Document name:", doc.data().name);
@@ -136,7 +146,6 @@ export default class MediaType extends Component {
             this.setState({
               dbData: temp
             }); 
-           // console.log("dbData ",this.state.dbData); 
         }
 
         temp =[]; 
@@ -168,6 +177,9 @@ export default class MediaType extends Component {
      const { Aspect, CaptureTarget, Orientation } = Camera.constants;
     const { navigate, dispatch, state } = this.props.navigation;
     const { bluetoothState, dataSource } =  this.state;
+    var distance1 = this.state.distance1;
+    var distance2 = this.state.distance2;
+    var distance3 = this.state.distance3;
 
     return (
       <View>
@@ -246,7 +258,9 @@ export default class MediaType extends Component {
             }}>
             
       {this.state.dbData.map((number, index) =>
+       
             <View style={styles.view2} key={index+number.name}>
+
                 <TouchableOpacity
                   style={ styles.button }
                   onPress={ () => navigate("Beacon", { 
@@ -262,7 +276,7 @@ export default class MediaType extends Component {
                  source={{ uri:number.img }} 
                 style={styles.cardImg}
               />
-                    <Text style={styles.cardTxt} key={index+number.name}>{number.name}</Text>
+                    <Text style={styles.cardTxt} key={index+number.name}>{number.name} ({this.displayDistance(index)})</Text>
                         
                 </TouchableOpacity>
             </View>
@@ -273,6 +287,18 @@ export default class MediaType extends Component {
         </View>
       </View>
     );
+  }
+
+  displayDistance(index){
+
+    if(index == 0){
+      return <Text> {this.state.distance1} </Text>;
+    } else if(index == 1){
+      return <Text> {this.state.distance2}  </Text>;
+    } else if(index == 2){
+      return <Text> {this.state.distance3}  </Text>;
+    }
+    
   }
 
    renderRow = rowData => {
@@ -295,15 +321,17 @@ export default class MediaType extends Component {
         </Text>
         <Text>
           Distance: {rowData.accuracy ? rowData.accuracy.toFixed(2) : 'NA'}m
-        </Text>
+        </Text>    
       </View>
-    );
-  }
+    ); 
+  } 
 
 }
 
 const styles = StyleSheet.create({ 
 
+dist:{
+},
 
 cardImg:{
    paddingBottom:0,
@@ -318,7 +346,7 @@ cardImg:{
   },
 
   nearTxt: {
-    marginTop: 15,
+    marginTop: 10,
     marginLeft:15,
     alignItems:"center",
     justifyContent:"center",
@@ -449,19 +477,23 @@ cardImg:{
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 60,
-    width: '100%'     
+    width: '100%'      
   },
 
   cardTxt:{
-   alignSelf: 'flex-end',
-    backgroundColor: "rgba(0,0,0,0.6)",
+   alignSelf: 'flex-end',   
+    backgroundColor: "#ededed",
     flexDirection: 'row',
     justifyContent: 'space-between', 
     height: 25,
     width: '100%',
     fontSize:18,
     padding:3,
-    color:'white'
+    color:'black',
+    borderTopWidth:1,
+    borderTopColor:'black',
+    justifyContent:"center",
+    alignItems: 'center'
   },
 
   camBtn: {
